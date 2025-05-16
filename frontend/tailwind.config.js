@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
-export const content = [
+export default {
+  content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
-];
-export const theme = {
+    "./node_modules/preline/dist/*.js",
+  ],
+  theme: {
     extend: {},
-};
-export const plugins = [];
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
+}

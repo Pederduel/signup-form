@@ -75,58 +75,108 @@ export const SignupWizard = ({ formDetails, formId }: SignupWizardProps) => {
 
   if (!isRegistrationOpen()) {
     return (
-      <div className="bg-amber-50 text-amber-800 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Registration Not Yet Open</h2>
-        <p className="mb-2">
-          Registration for {formDetails.title} will open on{' '}
-          {new Date(formDetails.registrationOpens).toLocaleDateString()}.
-        </p>
-        <p>Please check back then!</p>
+      <div className="max-w-2xl mx-auto">
+        <div className="p-6 bg-white border border-amber-200 rounded-lg shadow-sm">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="w-5 h-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-medium text-amber-800">Registration Not Yet Open</h3>
+              <div className="mt-2 text-amber-700 text-sm">
+                <p>Registration for <strong>{formDetails.title}</strong> will open on {new Date(formDetails.registrationOpens).toLocaleDateString()}.</p>
+                <p className="mt-2">Please check back then!</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (wizardState.isSuccess) {
     return (
-      <div className="bg-green-50 text-green-800 p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Registration Successful!</h2>
-        <p className="mb-2">Thank you for signing up for {formDetails.title}.</p>
-        <p>We have sent a confirmation email to {wizardState.formData.email}.</p>
+      <div className="max-w-2xl mx-auto">
+        <div className="p-6 bg-white border border-green-200 rounded-lg shadow-sm">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-medium text-green-800">Registration Successful!</h3>
+              <div className="mt-2 text-green-700 text-sm">
+                <p>Thank you for signing up for <strong>{formDetails.title}</strong>.</p>
+                <p className="mt-2">We have sent a confirmation email to {wizardState.formData.email}.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold text-center mb-6">{formDetails.title}</h1>
       
       {/* Wizard Progress */}
       <div className="flex items-center justify-center mb-8">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold
-          ${wizardState.currentStep >= 1 ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
-          1
-        </div>
-        <div className={`h-1 w-12 mx-2 ${wizardState.currentStep >= 2 ? 'bg-green-500' : 'bg-gray-200'}`}></div>
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold
-          ${wizardState.currentStep >= 2 ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
-          2
-        </div>
-        <div className={`h-1 w-12 mx-2 ${wizardState.currentStep >= 3 ? 'bg-green-500' : 'bg-gray-200'}`}></div>
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold
-          ${wizardState.currentStep >= 3 ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
-          3
-        </div>
+        <ol className="flex items-center w-full">
+          <li className="flex items-center text-sm font-medium me-6 whitespace-nowrap">
+            <span className={`flex items-center justify-center w-8 h-8 rounded-full ${wizardState.currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'} me-3`}>
+              1
+            </span>
+            Membership
+            <svg className="w-5 h-5 text-gray-400 ms-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </li>
+          <li className="flex items-center text-sm font-medium me-6 whitespace-nowrap">
+            <span className={`flex items-center justify-center w-8 h-8 rounded-full ${wizardState.currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'} me-3`}>
+              2
+            </span>
+            Personal Info
+            <svg className="w-5 h-5 text-gray-400 ms-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </li>
+          <li className="flex items-center text-sm font-medium whitespace-nowrap">
+            <span className={`flex items-center justify-center w-8 h-8 rounded-full ${wizardState.currentStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'} me-3`}>
+              3
+            </span>
+            Review & Submit
+          </li>
+        </ol>
       </div>
       
       {/* Error Message */}
       {wizardState.errorMessage && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6">
-          {wizardState.errorMessage}
+        <div className="p-4 mb-6 border border-red-200 rounded-lg bg-red-50">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-red-800">There was an error with your submission</h3>
+              <p className="text-sm text-red-700 mt-1">{wizardState.errorMessage}</p>
+            </div>
+          </div>
         </div>
       )}
       
       {/* Wizard Steps */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-sm border">
         {wizardState.currentStep === 1 && (
           <Step1MemberSelection
             memberTypes={formDetails.memberTypes}

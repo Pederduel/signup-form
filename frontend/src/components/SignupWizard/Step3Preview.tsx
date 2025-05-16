@@ -21,56 +21,94 @@ export const Step3Preview = ({
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Step 3: Review Your Information</h2>
-      <p className="mb-6">Please review your information before submitting.</p>
+      <h2 className="text-xl font-bold text-gray-800 mb-3">Review Your Information</h2>
+      <p className="text-gray-600 mb-6">Please review your information before submitting.</p>
       
-      <div className="bg-gray-50 p-4 rounded-lg mb-6">
-        <div className="mb-6">
-          <h3 className="font-medium text-lg border-b border-gray-200 pb-2 mb-3">
-            Membership Details
-          </h3>
-          <p className="mb-2">
-            <span className="font-medium">Club:</span> {formDetails.clubId}
-          </p>
-          <p>
-            <span className="font-medium">Membership Type:</span> {selectedMemberType?.name || 'Unknown'}
-          </p>
-        </div>
-        
-        <div>
-          <h3 className="font-medium text-lg border-b border-gray-200 pb-2 mb-3">
-            Personal Information
-          </h3>
-          <p className="mb-2">
-            <span className="font-medium">Name:</span> {formData.name}
-          </p>
-          <p className="mb-2">
-            <span className="font-medium">Email:</span> {formData.email}
-          </p>
-          <p className="mb-2">
-            <span className="font-medium">Phone:</span> {formData.phoneNumber}
-          </p>
-          <p>
-            <span className="font-medium">Birth Date:</span> {new Date(formData.birthDate).toLocaleDateString()}
-          </p>
+      <div className="mb-8">
+        <div className="border rounded-xl overflow-hidden">
+          <div className="bg-gray-100 border-b py-3 px-4 md:px-5">
+            <h3 className="font-semibold text-gray-800">Membership Information</h3>
+          </div>
+          
+          <div className="p-4 md:p-5">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <h4 className="text-xs font-semibold uppercase text-gray-500">Club</h4>
+                <p className="mt-1 text-gray-800">{formDetails.clubId}</p>
+              </div>
+              
+              <div>
+                <h4 className="text-xs font-semibold uppercase text-gray-500">Membership Type</h4>
+                <p className="mt-1 text-gray-800">{selectedMemberType?.name || 'N/A'}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       
-      <div className="flex justify-between">
+      <div className="mb-8">
+        <div className="border rounded-xl overflow-hidden">
+          <div className="bg-gray-100 border-b py-3 px-4 md:px-5">
+            <h3 className="font-semibold text-gray-800">Personal Information</h3>
+          </div>
+          
+          <div className="p-4 md:p-5">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <h4 className="text-xs font-semibold uppercase text-gray-500">Full Name</h4>
+                <p className="mt-1 text-gray-800">{formData.name}</p>
+              </div>
+              
+              <div>
+                <h4 className="text-xs font-semibold uppercase text-gray-500">Email Address</h4>
+                <p className="mt-1 text-gray-800">{formData.email}</p>
+              </div>
+              
+              <div>
+                <h4 className="text-xs font-semibold uppercase text-gray-500">Phone Number</h4>
+                <p className="mt-1 text-gray-800">{formData.phoneNumber}</p>
+              </div>
+              
+              <div>
+                <h4 className="text-xs font-semibold uppercase text-gray-500">Birth Date</h4>
+                <p className="mt-1 text-gray-800">{new Date(formData.birthDate).toLocaleDateString()}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="mt-8 flex justify-between">
         <button 
           type="button" 
-          className="bg-gray-200 text-gray-800 px-6 py-2 rounded-md"
+          className="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50"
           onClick={onPrevious}
         >
-          Previous
+          <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          Back
         </button>
         <button 
           type="button" 
-          className="bg-green-500 text-white px-6 py-2 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
           onClick={onSubmit}
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+          {isSubmitting ? (
+            <>
+              <span className="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>
+              Submitting...
+            </>
+          ) : (
+            <>
+              Submit Registration
+              <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14"/>
+                <path d="m12 5 7 7-7 7"/>
+              </svg>
+            </>
+          )}
         </button>
       </div>
     </div>
