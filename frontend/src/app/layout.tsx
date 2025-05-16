@@ -21,7 +21,7 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="py-6 text-center text-gray-500 text-sm">
-          © 2025 Spond Club. All rights reserved.
+          © 2025 Spond Test Case. All rights reserved.
         </footer>
       </body>
     </html>

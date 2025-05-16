@@ -4,7 +4,6 @@ export default function Home() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
       <div className="grid md:grid-cols-2 gap-12">
-        {/* Left content */}
         <div className="space-y-6">
           <div>
             <span className="inline-block bg-blue-100 text-blue-800 rounded-md py-1 px-3 text-sm font-medium">
@@ -27,16 +26,15 @@ export default function Home() {
             >
               Sign Up Now
             </Link>
-            <Link 
+            {/*<Link 
               href="/about" 
               className="inline-block bg-white border border-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition"
             >
               Learn more
-            </Link>
+            </Link>*/}
           </div>
         </div>
         
-        {/* Right content */}
         <div className="space-y-6">
           <div className="bg-white border rounded-lg shadow-sm">
             <div className="p-4">
@@ -45,7 +43,7 @@ export default function Home() {
                 Join our intensive summer coding program with hands-on projects and expert mentorship.
               </p>
               <p className="mt-3 text-sm font-semibold text-blue-600">
-                Registration opens: Dec 16, 2024
+                Registration opens: May 16, 2025
               </p>
             </div>
             <div className="bg-gray-50 border-t rounded-b-lg p-3">

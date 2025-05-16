@@ -7,9 +7,9 @@ services:
     volumes:
       - ./src:/app/src
       - ./pom.xml:/app/pom.xml
-      - ./data:/app/data
+      - ./data:/app/database
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/club_signup.db
+      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/database/club_signup_form.db
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.community.dialect.SQLiteDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     command: ./mvnw spring-boot:run

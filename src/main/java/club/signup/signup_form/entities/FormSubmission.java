@@ -2,21 +2,26 @@ package club.signup.signup_form.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
+@Table(name = "form_submission")
 public class FormSubmission {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
     
     private String formId;
     private String memberTypeId;
@@ -33,13 +38,14 @@ public class FormSubmission {
     @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
     
+    @JsonIgnore // Don't show this in API responses to the client
     private LocalDateTime submissionDate;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

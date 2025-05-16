@@ -1,34 +1,42 @@
 package club.signup.signup_form.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "club_signup_form")
 public class ClubSignupForm {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID formId;
+    @Column(name = "form_id")
+    private String formId;
+    
     private String clubId;
     private String title;
     private LocalDateTime registrationOpens;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<MemberType> memberTypes;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+        name = "form_member_types",
+        joinColumns = @JoinColumn(name = "form_id"),
+        inverseJoinColumns = @JoinColumn(name = "member_type_id")
+    )
+    final private List<MemberType> memberTypes = new ArrayList<>();
 
-    public UUID getFormId() {
+    public String getFormId() {
         return formId;
     }
 
-    public void setFormId(UUID formId) {
+    public void setFormId(String formId) {
         this.formId = formId;
     }
 
@@ -61,6 +69,9 @@ public class ClubSignupForm {
     }
 
     public void setMemberTypes(List<MemberType> memberTypes) {
-        this.memberTypes = memberTypes;
+        this.memberTypes.clear();
+        if (memberTypes != null) {
+            this.memberTypes.addAll(memberTypes);
+        }
     }
 }

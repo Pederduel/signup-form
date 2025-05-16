@@ -1,11 +1,6 @@
 package club.signup.signup_form.controllers;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import club.signup.signup_form.entities.ClubSignupForm;
 import club.signup.signup_form.entities.FormSubmission;
-import club.signup.signup_form.entities.MemberType;
+import club.signup.signup_form.models.SubmissionResponseModel;
+import club.signup.signup_form.services.SignupFormService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,40 +22,43 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class FormController {
     
+    @Autowired
+    private SignupFormService signupFormService;
+    
     @GetMapping("/{formId}")
     public ResponseEntity<ClubSignupForm> getFormDetails(@PathVariable String formId) {
-        ClubSignupForm form = new ClubSignupForm();
-        form.setFormId(UUID.randomUUID());
-        form.setClubId("britsport");
-        form.setTitle("Coding camp summer 2025");
-        
-        // Set registration date to December 16, 2024
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-        LocalDateTime registrationDate = LocalDateTime.parse("2024-12-16T00:00:00Z", formatter);
-        form.setRegistrationOpens(registrationDate);
-        
-        List<MemberType> memberTypes = new ArrayList<>();
-        
-        MemberType activeMember = new MemberType();
-        activeMember.setId(UUID.randomUUID());
-        activeMember.setName("Active Member");
-        memberTypes.add(activeMember);
-        
-        MemberType socialMember = new MemberType();
-        socialMember.setId(UUID.randomUUID());
-        socialMember.setName("Social Member");
-        memberTypes.add(socialMember);
-        
-        form.setMemberTypes(memberTypes);
-        
-        return ResponseEntity.ok(form);
+        return signupFormService.getFormById(formId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     
     @PostMapping("/{formId}/submissions")
     public ResponseEntity<?> submitForm(@PathVariable String formId, 
                                       @Valid @RequestBody FormSubmission submission) {
-        submission.setSubmissionDate(LocalDateTime.now());
+        // Check if form exists
+        var formOptional = signupFormService.getFormById(formId);
+        if (formOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Form not found");
+        }
         
-        return ResponseEntity.status(HttpStatus.CREATED).body("Submission successful");
+        // Check if registration is open
+        var form = formOptional.get();
+        if (!signupFormService.isRegistrationOpen(form)) {
+            return ResponseEntity.badRequest().body("Registration is not yet open");
+        }
+        
+        // Ensure the form ID matches
+        submission.setFormId(formId);
+        
+        // Save the submission
+        FormSubmission savedSubmission = signupFormService.submitForm(submission);
+        
+        // Create a response DTO with a success message and the submission ID
+        var responseModel = new SubmissionResponseModel(
+            "Registration submitted successfully", 
+            savedSubmission.getId()
+        );
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseModel);
     }
 }
