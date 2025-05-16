@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY pom.xml .
 COPY mvnw .
-COPY mvn ./.mvn
+COPY .mvn ./.mvn
 
 RUN ./mvnw dependency:go-offline -B
 
-COPY ./backend/src ./src
+COPY src ./src
 
 RUN ./mvnw package -DskipTests
 

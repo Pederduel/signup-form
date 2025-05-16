@@ -1,26 +1,12 @@
-FROM node:24-alpine AS build
+FROM node:24-alpine
 
 WORKDIR /app
 
-COPY ./frontend/package.json ./frontend/package-lock.json* ./
+COPY package.json yarn.lock ./
 
-RUN npm ci
+RUN yarn install
 
-COPY ./frontend .
-
-RUN npm run build
-
-FROM node:24-alpine AS production
-
-WORKDIR /app
-
-COPY --from=build /app/package.json /app/package-lock.json* ./
-
-RUN npm ci --production
-
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
-COPY --from=build /app/next.config.js ./
+COPY . .
 
 EXPOSE 3000
 

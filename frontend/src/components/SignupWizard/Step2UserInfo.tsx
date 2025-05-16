@@ -31,8 +31,8 @@ export const Step2UserInfo = ({
     
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone number is required';
-    } else if (!/^\d{10}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
-      newErrors.phoneNumber = 'Phone number must be 10 digits';
+    } else if (!/^\d{8}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
+      newErrors.phoneNumber = 'Phone number must be 8 digits';
     }
     
     if (!formData.birthDate) {

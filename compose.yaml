@@ -2,27 +2,14 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
       - ./data:/app/data
     environment:
       - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/club_signup.db
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.community.dialect.SQLiteDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    restart: unless-stopped
-
-  frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend/.next/cache:/app/.next/cache
-    depends_on:
-      - backend
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8080/api
-    restart: unless-stopped
+    command: ./mvnw spring-boot:run
